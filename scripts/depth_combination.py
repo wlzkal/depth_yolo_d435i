@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Copyright (C) 2023  0nhc
 # 
 # This program is free software: you can redistribute it and/or modify
@@ -11,9 +13,8 @@
 # GNU General Public License for more details.
 # 
 # You should have received a copy of the GNU General Public License
-# along with this program.If not, see <https://www.gnu.org/licenses/>.       
+# along with this program.If not, see <https://www.gnu.org/licenses/>.
 
-#!/usr/bin/env python3
 import rospy
 import pcl
 from darknet_ros_msgs.msg import BoundingBoxes
@@ -24,14 +25,14 @@ import numpy as np
 import math
 import tf
 
-height = 540
-width = 960
+height = 720
+width = 1280
 if_pcl_ready = 0
-parent_frame = "kinect2_ir_optical_frame"
+parent_frame = "camera_color_optical_frame"
 
 def darknet_callback(data):
     global p,if_pcl_ready
-    
+
     obj_tf = tf.TransformBroadcaster()
     if(if_pcl_ready):
         bounding_boxes = data.bounding_boxes
@@ -59,7 +60,6 @@ def darknet_callback(data):
             #obj_tf.sendTransform((z, -x, -y),tf.transformations.quaternion_from_euler(0, 0, 0),rospy.Time.now(),i.Class+str(id),parent_frame)
             obj_tf.sendTransform((x, y, z),tf.transformations.quaternion_from_euler(0, -math.pi/2, math.pi/2),rospy.Time.now(),i.Class+str(id),parent_frame)
             id = id + 1
-        
 
 def depth_callback(data):
     global p,if_pcl_ready
@@ -70,14 +70,16 @@ def depth_callback(data):
     np_points[:, 2] = np.resize(pc['z'], height * width)
     p = pcl.PointCloud(np.array(np_points, dtype=np.float32))
     if_pcl_ready = 1
-    
+
 def listener():
     rospy.init_node('depth_combination', anonymous=True)
     rospy.Subscriber("/darknet_ros/bounding_boxes", BoundingBoxes, darknet_callback)
-    rospy.Subscriber("/kinect2/qhd/points", PointCloud2, depth_callback)
+    rospy.Subscriber("/camera/depth/color/points", PointCloud2, depth_callback)
     rospy.spin()
- 
+
 if __name__ == '__main__':
-    
-    p = pcl.PointCloud()
-    listener()
+    try:
+        p = np.zeros((height * width, 3), dtype=np.float32)
+        listener()
+    except Exception as e:
+        rospy.logerr(f"Error in main: {e}")

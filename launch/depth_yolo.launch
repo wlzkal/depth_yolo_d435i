@@ -2,11 +2,13 @@
 
 <launch>
   <!-- Kinect V2 -->
-  <include file="$(find kinect2_bridge)/launch/kinect2_bridge.launch"/>
-  
+  <include file="$(find realsense2_camera)/launch/rs_camera.launch">
+    <arg name="align_depth" value="true"/>
+    <arg name="enable_pointcloud" value="true"/>
+  </include>
+
   <!-- Console launch prefix -->
   <arg name="launch_prefix" default=""/>
-  <arg name="image" default="/kinect2/qhd/image_color" />
 
   <!-- Config and weights folder. -->
   <arg name="yolo_weights_path"          default="$(find darknet_ros)/yolo_network_config/weights"/>
@@ -14,7 +16,7 @@
 
   <!-- ROS and network parameter files -->
   <arg name="ros_param_file"             default="$(find darknet_ros)/config/ros.yaml"/>
-  <arg name="network_param_file"         default="$(find darknet_ros)/config/yolov2-tiny.yaml"/>
+  <arg name="network_param_file"         default="$(find darknet_ros)/config/yolov3.yaml"/>
 
   <!-- Load parameters -->
   <rosparam command="load" ns="darknet_ros" file="$(arg ros_param_file)"/>
@@ -24,15 +26,14 @@
   <node pkg="darknet_ros" type="darknet_ros" name="darknet_ros" output="screen" launch-prefix="$(arg launch_prefix)">
     <param name="weights_path"          value="$(arg yolo_weights_path)" />
     <param name="config_path"           value="$(arg yolo_config_path)" />
-    <remap from="camera/rgb/image_raw"  to="$(arg image)" />
   </node>
 
   <!-- Depth Combination -->
   <node pkg="depth_yolo" type="depth_combination.py" name="depth_combination" />
 
   <!-- Static TF -->
-  <node pkg="tf" type="static_transform_publisher" name="camera_link_to_kinect2_optical_frame"
-    args="0 0 0 -1.57 0 -1.57 /camera_link /kinect2_ir_optical_frame 100" />
+  <node pkg="tf" type="static_transform_publisher" name="camera_link_to_camera_color_optical_frame"
+    args="0 0 0 -1.57 0 -1.57 /camera_link /camera_color_optical_frame 100" />
 
    <!-- RVIZ -->
   <node pkg="rviz" type="rviz" name="rviz"
