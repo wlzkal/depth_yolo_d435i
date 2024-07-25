@@ -57,7 +57,6 @@ def darknet_callback(data):
                 x = x/valid_num
                 y = y/valid_num
                 z = z/valid_num
-            #obj_tf.sendTransform((z, -x, -y),tf.transformations.quaternion_from_euler(0, 0, 0),rospy.Time.now(),i.Class+str(id),parent_frame)
             obj_tf.sendTransform((x, y, z),tf.transformations.quaternion_from_euler(0, -math.pi/2, math.pi/2),rospy.Time.now(),i.Class+str(id),parent_frame)
             id = id + 1
 
@@ -74,7 +73,7 @@ def depth_callback(data):
 def listener():
     rospy.init_node('depth_combination', anonymous=True)
     rospy.Subscriber("/darknet_ros/bounding_boxes", BoundingBoxes, darknet_callback)
-    rospy.Subscriber("/camera/depth/color/points", PointCloud2, depth_callback)
+    rospy.Subscriber("/camera/depth_registered/points", PointCloud2, depth_callback)
     rospy.spin()
 
 if __name__ == '__main__':

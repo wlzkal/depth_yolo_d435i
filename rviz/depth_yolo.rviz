@@ -93,84 +93,6 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
-        bed10:
-          Value: true
-        bed4:
-          Value: true
-        bed5:
-          Value: true
-        bed6:
-          Value: true
-        bed7:
-          Value: true
-        bed8:
-          Value: true
-        bottle0:
-          Value: true
-        bottle1:
-          Value: true
-        bottle2:
-          Value: true
-        bottle3:
-          Value: true
-        bottle4:
-          Value: true
-        bottle5:
-          Value: true
-        bottle6:
-          Value: true
-        bottle7:
-          Value: true
-        bottle8:
-          Value: true
-        bowl5:
-          Value: true
-        camera_link:
-          Value: true
-        chair3:
-          Value: true
-        chair4:
-          Value: true
-        chair5:
-          Value: true
-        chair6:
-          Value: true
-        chair7:
-          Value: true
-        chair9:
-          Value: true
-        clock4:
-          Value: true
-        clock5:
-          Value: true
-        clock6:
-          Value: true
-        clock8:
-          Value: true
-        clock9:
-          Value: true
-        cup3:
-          Value: true
-        cup4:
-          Value: true
-        cup5:
-          Value: true
-        kinect2_ir_optical_frame:
-          Value: true
-        mouse9:
-          Value: true
-        person0:
-          Value: true
-        tvmonitor4:
-          Value: true
-        tvmonitor5:
-          Value: true
-        tvmonitor6:
-          Value: true
-        tvmonitor7:
-          Value: true
-        tvmonitor9:
-          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
@@ -178,86 +100,12 @@ Visualization Manager:
       Show Names: true
       Tree:
         camera_link:
-          kinect2_ir_optical_frame:
-            bed10:
-              {}
-            bed4:
-              {}
-            bed5:
-              {}
-            bed6:
-              {}
-            bed7:
-              {}
-            bed8:
-              {}
-            bottle0:
-              {}
-            bottle1:
-              {}
-            bottle2:
-              {}
-            bottle3:
-              {}
-            bottle4:
-              {}
-            bottle5:
-              {}
-            bottle6:
-              {}
-            bottle7:
-              {}
-            bottle8:
-              {}
-            bowl5:
-              {}
-            chair3:
-              {}
-            chair4:
-              {}
-            chair5:
-              {}
-            chair6:
-              {}
-            chair7:
-              {}
-            chair9:
-              {}
-            clock4:
-              {}
-            clock5:
-              {}
-            clock6:
-              {}
-            clock8:
-              {}
-            clock9:
-              {}
-            cup3:
-              {}
-            cup4:
-              {}
-            cup5:
-              {}
-            mouse9:
-              {}
-            person0:
-              {}
-            tvmonitor4:
-              {}
-            tvmonitor5:
-              {}
-            tvmonitor6:
-              {}
-            tvmonitor7:
-              {}
-            tvmonitor9:
-              {}
+          camera_color_optical_frame:
       Update Interval: 0
       Value: true
     - Class: rviz/Image
       Enabled: true
-      Image Topic: /camera/color/image_raw
+      Image Topic: /darknet_ros/detection_image
       Max Value: 1
       Median window: 5
       Min Value: 0
